@@ -1,0 +1,4 @@
+# PF2E Perfect Vision Binding
+![Foundry Core Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2FCarlosFdez%2Fpf2e-pv-binding%2Fmaster%2Fsrc%2Fmodule.json&label=Foundry%20Version&query=$.compatibleCoreVersion&colorB=orange)
+
+If you want (most of) the convenience of rules based vision (built into core PF2e) with the prettiness of perfect vision. Auto-sets bright vision, low light vision, and fetchling's special color darkvision in the token options for every actor on the scene, based on the senses traits on the actor. Uses the same methods as the built in rules based automation, so it only supports what it supports (so characters only for now).

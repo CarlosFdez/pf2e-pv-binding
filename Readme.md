@@ -6,3 +6,5 @@ For when you want (most of) the convenience of core PF2e's "rules based vision" 
 If Rules Based Vision + Perfect Vision together is working fine with no issues, then all this does is automate fletching (not very necessary). Light blending for bright torch animations on low light vision actors does look a bit better without rules based vision currently though, so this has a use in that scenario.
 
 When Foundry 0.9 does adaptive lighting, this module will likely be retired.
+
+Updates to tokens occur when the actor is updated in any way, or when a new token is placed on the board.

@@ -1,18 +1,43 @@
 Hooks.on("init", () => {
+    const rbvEnabled = game.settings.get("pf2e", "automation.rulesBasedVision");
+    if (rbvEnabled) {
+        Dialog.prompt({
+            title: "Not compatible with Rules Based Vision",
+            content: "PF2E Perfect Vision Binding is not intended to be used with the <strong><a>Rules Based Vision</a></strong> automation option. Disable this module, or disable RBV.",
+            render: ($html) => {
+                $html.find("a").on("click", () => {
+                    const menu = game.settings.menus.get("pf2e.automation");
+                    if (menu) {
+                        const app = new menu.type();
+                        app.render(true);
+                    }
+                })
+            },
+            callback: () => {}
+        });
+        return;
+    }
+
     if (typeof libWrapper === "undefined") return;
     libWrapper.register("pf2e-pv-binding", "CONFIG.Actor.documentClass.prototype.prepareData", actorPrepareData);
+
+    enableHooks();
 });
 
-Hooks.on("preCreateToken", (token) => {
-    const actor = token.actor;
-    if (actor && token) {
-        const data = getVisionData(actor);
-        const updates = getTokenUpdates(token, data);
-        if (updates) {
-            token.data.update(updates);
+function enableHooks() {
+    Hooks.on("preCreateToken", (token) => {
+        const actor = token.actor;
+        if (actor && token) {
+            const data = getVisionData(actor);
+            const updates = getTokenUpdates(token, data);
+            if (updates) {
+                token.data.update(updates);
+            }
         }
-    }
-})
+    });
+}
+
+
 
 function actorPrepareData(wrapped, ...args) {
     wrapped(...args);
@@ -58,7 +83,7 @@ function getTokenUpdates(token, { brightSight, dimSight, isBrightest }) {
         updates.dimSight = dimSight;
     }
 
-    if (Object.keys(updates).length > 0) {
+    if (!isObjectEmpty(updates)) {
         return updates;
     }
 }

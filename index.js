@@ -25,19 +25,18 @@ Hooks.on("init", () => {
 });
 
 function enableHooks() {
-    Hooks.on("preCreateToken", (token) => {
+    Hooks.on("preCreateToken", (token, data) => {
         const actor = token.actor;
         if (actor && token) {
-            const data = getVisionData(actor);
-            const updates = getTokenUpdates(token, data);
+            const visionData = getVisionData(actor);
+            const updates = getTokenUpdates(token, visionData);
             if (updates) {
+                mergeObject(data, updates);
                 token.data.update(updates);
             }
         }
     });
 }
-
-
 
 function actorPrepareData(wrapped, ...args) {
     wrapped(...args);

@@ -27,7 +27,7 @@ Hooks.on("init", () => {
 function enableHooks() {
     Hooks.on("preCreateToken", (token, data) => {
         const actor = token.actor;
-        if (actor && token) {
+        if (actor && token && ["character", "familiar"].includes(actor.type)) {
             const visionData = getVisionData(actor);
             const updates = getTokenUpdates(token, visionData);
             if (updates) {
@@ -40,7 +40,7 @@ function enableHooks() {
 
 function actorPrepareData(wrapped, ...args) {
     wrapped(...args);
-    if (this.initialized && ["character", "npc", "familiar"].includes(this.type)) {
+    if (this.initialized && ["character", "familiar"].includes(this.type)) {
         const data = getVisionData(this);
         const tokens = canvas.ready ? this.getActiveTokens() : [];
         for (const token of tokens) {

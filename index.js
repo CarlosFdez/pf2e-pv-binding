@@ -1,4 +1,10 @@
+const supported = !isNewerVersion(game.version, "9");
+
 Hooks.on("init", () => {
+    if (!supported) {
+        return;
+    }
+    
     const rbvEnabled = game.settings.get("pf2e", "automation.rulesBasedVision");
     if (rbvEnabled) {
         Dialog.prompt({
@@ -22,6 +28,12 @@ Hooks.on("init", () => {
     libWrapper.register("pf2e-pv-binding", "CONFIG.Actor.documentClass.prototype.prepareData", actorPrepareData);
 
     enableHooks();
+});
+
+Hooks.on("ready", () => {
+    if (!supported) {
+        ui.notifications.error("PF2E Perfect Vision Binding is not compatible and not necessary with Foundry Version 9 and above. Please uninstall.");
+    }
 });
 
 function enableHooks() {
